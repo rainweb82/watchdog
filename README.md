@@ -9,7 +9,7 @@ https://termux.com/
 
 #### 首次执行
 
-pkg install git && git clone https://gitee.com/iamruirui/watchurl.git watchdog && cp ./watchdog/run.sh run.sh
+pkg install git && git clone --depth 1 https://gitee.com/iamruirui/watchurl.git watchdog && cp ./watchdog/run.sh run.sh
 
 #### 运行程序
 
