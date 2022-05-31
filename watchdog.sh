@@ -141,7 +141,7 @@ fi
 code=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $url`
 date=`date +"%m-%d %H:%M:%S"`
 #判断网站标题
-echo "<title>无法打开</title>" >> output.txt
+echo "<title>无法访问</title>" >> output.txt
 curl --retry 3 --retry-max-time 30 $url -s -o output.txt
 tit=`egrep -o "(<title>)(.*)(</title>)" output.txt`
 rm -rf output.txt
@@ -151,7 +151,7 @@ if [ "$tit" == "$rtit" ]
 then
 
 #打印正常文字
-echo -e "\033[32m"网站正常 标题:$tit 代码：$code $date     
+echo -e "\033[32m"正常 网站名:$tit 代码：$code $date     
 #更新正常计数
 zcnum=$(($zcnum+1))
 #重置连续错误计数
@@ -181,7 +181,7 @@ cwnum=$(($cwnum+1))
 #更新连续错误计数，超过指定次数更新域名时使用
 lxcwhj=$(($lxcwhj+1))
 #打印错误文字
-echo -e "\033[31m"网站异常 $tit 代码：$code $date      
+echo -e "\033[31m"网站异常，$tit 代码：$code $date      
 #判断是否需要推送
 if [ $(( $times % $msgtimes )) = 0 ]  && [ $times -ne 0 ] ; then
 #推送消息
