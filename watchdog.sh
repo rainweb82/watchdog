@@ -151,7 +151,7 @@ if [ "$tit" == "$rtit" ]
 then
 
 #打印正常文字
-echo -e "\033[32m"正常 网站名:$tit 代码：$code $date     
+echo -e "\033[32m"网站正常 网站名:$tit 代码：$code $date     
 #更新正常计数
 zcnum=$(($zcnum+1))
 #重置连续错误计数
