@@ -137,13 +137,13 @@ fi
 cp ./watchdog/run.sh run.sh
 cp ./watchdog/hub.list hub.list
 fi
-#监控域名返回code
-code=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $url`
 date=`date +"%m-%d %H:%M:%S"`
 
 #判断网站源码是否包含指定内容
-strA="`curl --retry 3 --retry-max-time 30 $url -s`"
+strA="`curl --retry 3 --retry-max-time 30 -s -w %{http_code} $url`"
 result=$(echo $strA | grep "${rtit}" -a)
+code=${strA:$((${#strA}-3))}
+
 if [ "$result" != "" ]
 then
 
