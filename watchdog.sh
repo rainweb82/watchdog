@@ -179,6 +179,7 @@ cwnum=$(($cwnum+1))
 lxcwhj=$(($lxcwhj+1))
 
 wrong=<br>$code $date$wrong
+echo $wrong
 
 #打印错误文字
 echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date      
