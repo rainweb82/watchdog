@@ -178,7 +178,7 @@ cwnum=$(($cwnum+1))
 #更新连续错误计数，超过指定次数更新域名时使用
 lxcwhj=$(($lxcwhj+1))
 
-wrong=<br>$code $date$wrong
+wrong=%3Cbr%3E$code $date$wrong
 echo $wrong
 
 #打印错误文字
