@@ -130,6 +130,7 @@ url=$new_url
 #获取到新域名，重置统计数据
 cwnum=0
 zcnum=0
+wrong=''
 echo -e "\033[35m"更新域名为：$url
 else
 echo -e "\033[35m"域名无变化，继续监控：$url
@@ -240,6 +241,7 @@ url=$new_url
 #获取到新域名，重置统计数据
 cwnum=0
 zcnum=0
+wrong=''
 echo
 echo -e "\033[35m"更新域名为：$url
 break
