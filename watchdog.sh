@@ -178,10 +178,8 @@ times=$(($times+1))
 cwnum=$(($cwnum+1))
 #更新连续错误计数，超过指定次数更新域名时使用
 lxcwhj=$(($lxcwhj+1))
-
+#记录错误日志，以备每日推送时使用
 wrong="%3Cbr%3E%E4%BB%A3%E7%A0%81%EF%BC%9A${code}+%E6%97%B6%E9%97%B4%EF%BC%9A`date +"%m-%d_%H:%M:%S"`${wrong}"
-echo $wrong
-
 #打印错误文字
 echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date      
 #判断是否需要推送
