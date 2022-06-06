@@ -47,8 +47,9 @@ ch=('|' '\' '-' '/')
 times=$(($msgtimes-$err))
 temptimes=$times
 #生成简化url
-url_s=$((${#url}/3))
-surl=${url:0:url_s}***${url:$((${#url}-${#url}/3))}
+url_h="${url//www./}"&&url_h="${url_h//https:\/\//}"&&url_h="${url_h//http:\/\//}"
+url_s=$((${#url_h}/3))
+surl=${url_h:0:url_s}***${url_h:$((${#url_h}-${url_s}))}
 printf " 网络检测中，请稍后... \r"
 while [[ $tries -lt 5 ]]
 do
