@@ -14,7 +14,7 @@ MAC：https://github.com/electerm/electerm/releases
 
 #### 首次执行
 
-pkg install git && git clone --depth 1 https://gitee.com/iamruirui/watchurl.git watchdog && cp ./watchdog/run.sh run.sh && cp ./watchdog/config config 
+pkg install git && git clone --depth 1 https://github.com/rainweb82/watchdog.git watchdog && cp ./watchdog/run.sh run.sh && cp ./watchdog/config config 
 
 #### 运行程序
 
