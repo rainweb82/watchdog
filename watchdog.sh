@@ -8,7 +8,7 @@
 #v6 增加第2个推送地址支持
 #v7 增加等待中的倒计时进度条
 #v8 增加错误次数过多后，自动获取新域名功能
-#v9 网站正常条件改为判断页面标题
+#v9 网站正常条件改为判断页面内容
 #v9.1 每日推送增加历史错误日志内容
 
 #脚本更新地址
@@ -156,7 +156,7 @@ if [ "$result" != "" ]
 then
 
 #打印正常文字
-echo -e "\033[32m"网站正常,内容含:$rtit 代码：$code $date     
+echo -e "\033[32m"网站正常,内容含：$rtit 代码：$code $date     
 #更新正常计数
 zcnum=$(($zcnum+1))
 #重置连续错误计数
@@ -176,7 +176,7 @@ lxcwhj=$(($lxcwhj+1))
 #记录错误日志，以备每日推送时使用
 wrong="%3Cbr%3E%E4%BB%A3%E7%A0%81%EF%BC%9A${code}+%E6%97%B6%E9%97%B4%EF%BC%9A`date +"%m-%d_%H:%M:%S"`${wrong}"
 #打印错误文字
-echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date
+echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date    
 #判断是否需要推送
 if [ $(( $times % $msgtimes )) = 0 ]  && [ $times -ne 0 ] ; then
 #推送消息
@@ -203,7 +203,7 @@ times=0
 temptimes=0
 fi
 #发现异常待命1分钟后重试
-loading  1
+loading 1
 
 fi
 
@@ -230,7 +230,7 @@ break
 fi
 echo
 echo -e "\033[35m"域名未更新，等待30分钟 $date 
-loading  30
+loading 30
 done
 echo 已尝试更新域名，恢复域名检测 $date      
 fi
