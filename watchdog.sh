@@ -21,7 +21,7 @@ pushplustokena=
 #PUSHPLUS推送tokena(B)
 pushplustokenb=
 #网页正常时源码内包含的内容
-rtit=Google
+rtit=github
 #首次错误推送容错次数
 err=3
 #连续出错多少次进行推送消息
