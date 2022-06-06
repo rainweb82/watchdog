@@ -8,7 +8,7 @@
 #v6 增加第2个推送地址支持
 #v7 增加等待中的倒计时进度条
 #v8 增加错误次数过多后，自动获取新域名功能
-#v9 网站正常条件改为判断页面内容
+#v9 网站正常条件改为判断页面标题
 #v9.1 每日推送增加历史错误日志内容
 
 #脚本更新地址
@@ -38,6 +38,23 @@ interval=5
 #异常时强制为1分钟
 
 clear
+#等待进度条
+function loading()
+{
+mark=''
+markl=''
+for ((ratio=$(($1*60*4));${ratio}>=0;ratio+=-1))
+do
+if [ $ratio -ne $(($1*60*4)) ]
+then
+sleep 0.25
+fi
+ratio_s=$(($ratio/4))
+printf " \033[37m等待:[%-30s]%d秒[%c]   \r" "${markl}" "${ratio_s}" "${ch[$(($ratio%4))]}"
+markl=${mark:0:$((${#mark}/($1*60/30*4)+1))}
+mark="#${mark}"
+done
+}
 #检测代码开始
 zcnum=0
 cwnum=0
@@ -60,19 +77,7 @@ if [ $baidu -ne 200 ] && [ $baidu -ne 301 ]
 then
 baidu=31m失败
 printf "当前网络异常，访问百度：\033[${baidu}\033[37m，60秒后重试    \n"
-mark=''
-markl=''
-for ((ratio=240;${ratio}>=0;ratio+=-1))
-do
-if [ $ratio -ne 240 ]
-then
-sleep 0.25
-fi
-ratio_s=$(($ratio/4))
-printf " \033[37m等待:[%-30s]%d秒[%c]   \r" "${markl}" "${ratio_s}" "${ch[$(($ratio%4))]}"
-markl=${mark:0:$((${#mark}/8+1))}
-mark="#${mark}"
-done
+loading 1
 else
 baidu=32m正常
 printf "当前网络正常，访问百度：\033[${baidu}\033[37m，即将开始域名检测\n"
@@ -151,26 +156,14 @@ if [ "$result" != "" ]
 then
 
 #打印正常文字
-echo -e "\033[32m"网站正常,内容含：$rtit 代码：$code $date     
+echo -e "\033[32m"网站正常,内容含:$rtit 代码：$code $date     
 #更新正常计数
 zcnum=$(($zcnum+1))
 #重置连续错误计数
 times=$temptimes
 lxcwhj=0
 #访问正常，待命x分钟后重试
-mark=''
-markl=''
-for ((ratio=$(($interval*60*4));${ratio}>=0;ratio+=-1))
-do
-if [ $ratio -ne $(($interval*60*4)) ]
-then
-sleep 0.25
-fi
-ratio_s=$(($ratio/4))
-printf " \033[37m等待:[%-30s]%d秒[%c]   \r" "${markl}" "${ratio_s}" "${ch[$(($ratio%4))]}"
-markl=${mark:0:$((${#mark}/$(($interval*8))+1))}
-mark="#${mark}"
-done
+loading $interval
 
 else
 
@@ -183,7 +176,7 @@ lxcwhj=$(($lxcwhj+1))
 #记录错误日志，以备每日推送时使用
 wrong="%3Cbr%3E%E4%BB%A3%E7%A0%81%EF%BC%9A${code}+%E6%97%B6%E9%97%B4%EF%BC%9A`date +"%m-%d_%H:%M:%S"`${wrong}"
 #打印错误文字
-echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date      
+echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date
 #判断是否需要推送
 if [ $(( $times % $msgtimes )) = 0 ]  && [ $times -ne 0 ] ; then
 #推送消息
@@ -210,19 +203,7 @@ times=0
 temptimes=0
 fi
 #发现异常待命1分钟后重试
-mark=''
-markl=''
-for ((ratio=240;${ratio}>=0;ratio+=-1))
-do
-if [ $ratio -ne 240 ]
-then
-sleep 0.25
-fi
-ratio_s=$(($ratio/4))
-printf " \033[37m等待:[%-30s]%d秒[%c]   \r" "${markl}" "${ratio_s}" "${ch[$(($ratio%4))]}"
-markl=${mark:0:$((${#mark}/8+1))}
-mark="#${mark}"
-done
+loading  1
 
 fi
 
@@ -248,20 +229,8 @@ echo -e "\033[35m"更新域名为：$url
 break
 fi
 echo
-echo -e "\033[35m"域名未更新，等待30分钟 $date    
-mark=''
-markl=''
-for ((ratio=7200;${ratio}>=0;ratio+=-1))
-do
-if [ $ratio -ne 7200 ]
-then
-sleep 0.25
-fi
-ratio_s=$(($ratio/240))
-printf " \033[37m等待:[%-30s]%d分[%c]   \r" "${markl}" "${ratio_s}" "${ch[$(($ratio%4))]}"
-markl=${mark:0:$((${#mark}/240+1))}
-mark="#${mark}"
-done
+echo -e "\033[35m"域名未更新，等待30分钟 $date 
+loading  30
 done
 echo 已尝试更新域名，恢复域名检测 $date      
 fi
