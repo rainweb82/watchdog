@@ -5,7 +5,7 @@
 
 #### 运行软件termax
 
-安卓：https://github.com/termux/termux-app/releases
+安卓：https://github.com/termux/termux-app/releases<br />
 MAC：https://github.com/electerm/electerm/releases
 
 #### 首次执行
