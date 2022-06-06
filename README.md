@@ -8,6 +8,10 @@
 安卓：https://github.com/termux/termux-app/releases<br />
 MAC：https://github.com/electerm/electerm/releases
 
+#### 微信推送pushplus
+
+https://www.pushplus.plus
+
 #### 首次执行
 
 pkg install git && git clone --depth 1 https://gitee.com/iamruirui/watchurl.git watchdog && cp ./watchdog/run.sh run.sh && cp ./watchdog/hub.list hub.list 
