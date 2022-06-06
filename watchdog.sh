@@ -107,7 +107,7 @@ if [ ! $pushplustokena ]
 then
 echo 未设置PUSHPLUS-A，跳过本次每日推送任务        
 else
-nowmsga=http://www.pushplus.plus/send?token=$pushplustokena\&title=${surl}%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A${surl}%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A${day}%E5%A4%A9${hour}%E5%B0%8F%E6%97%B6${min}%E5%88%86${sec}%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`\&template=html
+nowmsga=http://www.pushplus.plus/send?token=$pushplustokena\&title=${surl}%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A${surl}%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A${day}%E5%A4%A9${hour}%E5%B0%8F%E6%97%B6${min}%E5%88%86${sec}%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`%3Cbr%3E$wrong\&template=html
 aa=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsga`
 echo -e "\033[34m"PUSHPLUS-A 本次每日推送已完成！代码：$aa      
 fi
@@ -115,7 +115,7 @@ if [ ! $pushplustokenb ]
 then
 echo 未设置PUSHPLUS-B，跳过本次每日推送任务        
 else
-nowmsgb=http://www.pushplus.plus/send?token=$pushplustokenb\&title=${surl}%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A${surl}%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A${day}%E5%A4%A9${hour}%E5%B0%8F%E6%97%B6${min}%E5%88%86${sec}%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`\&template=html
+nowmsgb=http://www.pushplus.plus/send?token=$pushplustokenb\&title=${surl}%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A${surl}%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A${day}%E5%A4%A9${hour}%E5%B0%8F%E6%97%B6${min}%E5%88%86${sec}%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`%3Cbr%3E$wrong\&template=html
 bb=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsgb`
 echo -e "\033[34m"PUSHPLUS-B 本次每日推送已完成！代码：$bb      
 fi
@@ -179,7 +179,7 @@ cwnum=$(($cwnum+1))
 #更新连续错误计数，超过指定次数更新域名时使用
 lxcwhj=$(($lxcwhj+1))
 
-wrong="%3Cbr%3E${code} ${date}${wrong}"
+wrong="%3Cbr%3E%E4%BB%A3%E7%A0%81%EF%BC%9A${code} %E6%97%B6%E9%97%B4%EF%BC%9A${date}${wrong}"
 echo $wrong
 
 #打印错误文字
