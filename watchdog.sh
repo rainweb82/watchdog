@@ -35,6 +35,14 @@ function loading()
 		mark="#$mark"
 	done
 }
+#生成简化url
+function jjurl()
+{
+url_h="${1//www./}"&&url_h="${url_h//https:\/\//}"&&url_h="${url_h//http:\/\//}"
+url_s=$((${#url_h}/3))
+surl=${url_h:0:url_s}***${url_h:$((${#url_h}-${url_s}))}
+echo $surl
+}
 #检测代码开始
 zcnum=0
 cwnum=0
@@ -46,10 +54,7 @@ ch=('|' '\' '-' '/')
 #推送容错时间计算
 times=$(($msgtimes-$err))
 temptimes=$times
-#生成简化url
-url_h="${url//www./}"&&url_h="${url_h//https:\/\//}"&&url_h="${url_h//http:\/\//}"
-url_s=$((${#url_h}/3))
-surl=${url_h:0:url_s}***${url_h:$((${#url_h}-${url_s}))}
+jjurl $url
 printf " 网络检测中，请稍后... \r"
 while [[ $tries -lt 5 ]]
 do
@@ -57,15 +62,15 @@ do
 	if [ $baidu -ne 200 ] && [ $baidu -ne 301 ]
 	then
 		baidu=31m失败
-		printf "当前网络异常，访问百度：\033[$baidu\033[37m，60秒后重试    \n"
+		printf "当前网络异常，访问百度:\033[$baidu\033[37m，60秒后重试    \n"
 		loading 1
 	else
 		baidu=32m正常
-		printf "当前网络正常，访问百度：\033[$baidu\033[37m，即将开始域名检测\n"
+		printf "当前网络正常，访问百度:\033[$baidu\033[37m，即将开始域名检测\n"
 		break
 	fi
 done
-echo -e "\033[35m"当前监控域名：$url
+echo -e "\033[35m"当前监控域名:$url
 #开始循环
 while [[ $tries -lt 5 ]]
 do
@@ -96,7 +101,7 @@ do
 		else
 			nowmsga=http://www.pushplus.plus/send?token=$pushplustokena\&title=$surl%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A$surl%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A$day%E5%A4%A9$hour%E5%B0%8F%E6%97%B6$min%E5%88%86$sec%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`%3Cbr%3E$wrong\&template=html
 			aa=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsga`
-			echo -e "\033[34m"PUSHPLUS-A 本次每日推送已完成！代码：$aa
+			echo -e "\033[34m"PUSHPLUS-A 本次每日推送已完成！代码:$aa
 		fi
 		if [ ! $pushplustokenb ]
 		then
@@ -104,7 +109,7 @@ do
 		else
 			nowmsgb=http://www.pushplus.plus/send?token=$pushplustokenb\&title=$surl%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A$surl%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A$day%E5%A4%A9$hour%E5%B0%8F%E6%97%B6$min%E5%88%86$sec%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`%3Cbr%3E$wrong\&template=html
 			bb=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsgb`
-			echo -e "\033[34m"PUSHPLUS-B 本次每日推送已完成！代码：$bb
+			echo -e "\033[34m"PUSHPLUS-B 本次每日推送已完成！代码:$bb
 		fi
 		issend=0
 		#定时检查域名是否有更新
@@ -118,9 +123,10 @@ do
 			cwnum=0
 			zcnum=0
 			wrong=''
-			echo -e "\033[35m"更新域名为：$url
+			jjurl $url
+			echo -e "\033[35m"更新域名为:$url
 		else
-			echo -e "\033[35m"域名无变化，继续监控：$url
+			echo -e "\033[35m"域名无变化，继续监控:$url
 		fi
 		#更新运行文件
 		cp ./watchdog/run.sh run.sh
@@ -134,7 +140,7 @@ do
 	if [ "$result" != "" ]
 	then
 		#打印正常文字
-		echo -e "\033[32m"网站正常,内容含：$rtit 代码：$code $date
+		echo -e "\033[32m"网站正常,内容含:$rtit 代码:$code $date
 		#更新正常计数
 		zcnum=$(($zcnum+1))
 		#重置连续错误计数
@@ -152,7 +158,7 @@ do
 		#记录错误日志，以备每日推送时使用
 		wrong="%3Cbr%3E%E4%BB%A3%E7%A0%81%EF%BC%9A$code+%E6%97%B6%E9%97%B4%EF%BC%9A`date +"%m-%d_%H:%M:%S"`$wrong"
 		#打印错误文字
-		echo -e "\033[31m"网站异常,内容无指定文字 代码：$code $date
+		echo -e "\033[31m"网站异常,内容无指定文字 代码:$code $date
 		#判断是否需要推送
 		if [ $(( $times % $msgtimes )) = 0 ]  && [ $times -ne 0 ] ; then
 			#推送消息
@@ -163,7 +169,7 @@ do
 				#生成推送地址a
 				msga=http://www.pushplus.plus/send?token=$pushplustokena\&title=$surl%E7%BD%91%E7%AB%99%E6%8C%82%E4%BA%86\&content=$surl+%E5%9F%9F%E5%90%8D%E6%8C%82%E4%BA%86%EF%BC%8C%E5%BF%AB%E5%8E%BB%E7%9C%8B%E7%9C%8B%E5%90%A7%EF%BC%81+`date +"%m-%d_%H:%M:%S"`\&template=html
 				a=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $msga`
-				echo -e "\033[34m"PUSHPLUS-A 本次错误推送已完成！代码：$a
+				echo -e "\033[34m"PUSHPLUS-A 本次错误推送已完成！代码:$a
 			fi
 			if [ ! $pushplustokenb ]
 			then
@@ -172,7 +178,7 @@ do
 				#生成推送地址b
 				msgb=http://www.pushplus.plus/send?token=$pushplustokenb\&title=$surl%E7%BD%91%E7%AB%99%E6%8C%82%E4%BA%86\&content=$surl+%E5%9F%9F%E5%90%8D%E6%8C%82%E4%BA%86%EF%BC%8C%E5%BF%AB%E5%8E%BB%E7%9C%8B%E7%9C%8B%E5%90%A7%EF%BC%81+`date +"%m-%d_%H:%M:%S"`\&template=html
 				b=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $msgb`
-				echo -e "\033[34m"PUSHPLUS-B 本次错误推送已完成！代码：$b
+				echo -e "\033[34m"PUSHPLUS-B 本次错误推送已完成！代码:$b
 			fi
 			#重置报错计数
 			times=0
@@ -198,8 +204,9 @@ do
 				cwnum=0
 				zcnum=0
 				wrong=''
+				jjurl $url
 				echo
-				echo -e "\033[35m"更新域名为：$url
+				echo -e "\033[35m"更新域名为:$url
 				break
 			fi
 			echo
