@@ -10,7 +10,7 @@ MAC：https://github.com/electerm/electerm/releases
 
 #### 微信推送pushplus
 
-https://www.pushplus.plus
+自行前往www.pushplus.plus注册，并填写token
 
 #### 首次执行
 
