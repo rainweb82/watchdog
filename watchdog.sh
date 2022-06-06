@@ -12,31 +12,10 @@
 #v9 网站正常条件改为判断页面内容
 #v9.1 每日推送增加历史错误日志内容
 
-#脚本更新地址
-hub=`cat ./watchdog/hub.list`
 #读取需监控的域名
 url=`cat ./watchdog/url.list`
-#PUSHPLUS推送tokena(A)
-pushplustokena=
-#PUSHPLUS推送tokena(B)
-pushplustokenb=
-#网页正常时源码内包含的内容
-rtit=github
-#首次错误推送容错次数
-err=3
-#连续出错多少次进行推送消息
-msgtimes=10
-#连续错误多少次后自动更新域名
-cwmax=20
-#每隔多少条输出一次统计信息
-tjnum=20
-#连续多少次更新域名失败后恢复旧域名检测
-maxurl=4
-#每日几点推送日报，每天2次（1点-12点），同时将检测域名是否有更新
-daypost=9
-#正常时检测间隔时间（分）
-interval=5
-#异常时强制为1分钟
+#读取配置文件
+source ./watchdog/config
 
 clear
 #等待进度条
