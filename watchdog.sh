@@ -123,7 +123,7 @@ do
 		fi
 		#更新运行文件
 		cp ./watchdog/run.sh run.sh
-		cp ./watchdog/hub.list hub.list
+		cp ./watchdog/config config
 	fi
 	date=`date +"%m-%d %H:%M:%S"`
 	#判断网站源码是否包含指定内容
