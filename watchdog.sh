@@ -147,15 +147,12 @@ do
 		cp ./watchdog/hub.list hub.list
 	fi
 	date=`date +"%m-%d %H:%M:%S"`
-
 	#判断网站源码是否包含指定内容
 	strA="`curl --retry 3 --retry-max-time 30 -L -s -w %{http_code} $url`"
 	result=$(echo $strA | grep "$rtit" -a)
 	code=${strA:$((${#strA}-3))}
-
 	if [ "$result" != "" ]
 	then
-
 		#打印正常文字
 		echo -e "\033[32m"网站正常,内容含：$rtit 代码：$code $date
 		#更新正常计数
@@ -165,9 +162,7 @@ do
 		lxcwhj=0
 		#访问正常，待命x分钟后重试
 		loading $interval
-
 	else
-
 		#更新报错通知计数
 		times=$(($times+1))
 		#更新错误计数
@@ -205,9 +200,7 @@ do
 		fi
 		#发现异常待命1分钟后重试
 		loading 1
-
 	fi
-
 	#错误次数超过指定次数，自动拉取新域名
 	if [ $lxcwhj -eq $cwmax ]
 	then
