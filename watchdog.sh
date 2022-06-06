@@ -15,7 +15,7 @@ hub=`cat ./watchdog/hub.list`
 #读取需监控的域名
 url=`cat ./watchdog/url.list`
 #PUSHPLUS推送tokena(A)
-pushplustokena=`cat ./watchdog/token.list`
+pushplustokena=
 #PUSHPLUS推送tokena(B)
 pushplustokenb=
 #网页正常时源码内包含的内容
