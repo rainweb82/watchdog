@@ -1,3 +1,4 @@
+#!/bin/bash
 #Watchdog 直接复制到shell内运行
 
 #v1 实现基本监控
