@@ -75,7 +75,7 @@ while [[ $tries -lt 5 ]]
 do
 	#每日推送
 	nowtime=$(($(date +%-H)%12))
-	if [ $(( $nowtime )) -eq $(($daypost-1)) ]
+	if [ $nowtime -ne $daypost ]
 	then
 		issend=1
 	fi
