@@ -39,7 +39,7 @@ function loading()
 function jjurl()
 {
 url_h="${1//www./}"&&url_h="${url_h//https:\/\//}"&&url_h="${url_h//http:\/\//}"
-url_s=$((${#url_h}/2-2))
+url_s=$((${#url_h}/2-1))
 surl=${url_h:0:url_s}**${url_h:$((${#url_h}-${url_s}))}
 }
 #检测代码开始
