@@ -45,9 +45,9 @@ surl=${url_h:0:url_s}**${url_h:$((${#url_h}-${url_s}))}
 #Pushplus推送
 function sendmsg()
 {
-			nowmsg=http://www.pushplus.plus/send?token=$1$2
-			nowmsgcode=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsg`
-			echo -e "\033[34m"本次PUSHPLUS推送已完成！代码:$nowmsgcode
+nowmsg=http://www.pushplus.plus/send?token=$1$2
+nowmsgcode=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsg`
+echo -e "\033[34m"本次PUSHPLUS推送已完成！代码:$nowmsgcode
 }
 #检测代码开始
 zcnum=0
