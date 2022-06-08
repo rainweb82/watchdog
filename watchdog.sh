@@ -15,7 +15,7 @@
 #读取需监控的域名
 url=`cat ./watchdog/url.list`
 #读取配置文件
-source ./watchdog/config
+source ./config
 
 clear
 #等待进度条
@@ -133,7 +133,6 @@ do
 		fi
 		#更新运行文件
 		cp ./watchdog/run.sh run.sh
-		cp ./watchdog/config config
 	fi
 	date=`date +"%m-%d %H:%M:%S"`
 	#判断网站源码是否包含指定内容
