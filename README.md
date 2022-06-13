@@ -9,7 +9,7 @@
 
 #### 运行软件
 
-Aidlux：https://github.com/aidlearning/AidLearning-FrameWork/releases<br />
+Aidlux：https://www.aidlux.com/product<br />
 termax：https://github.com/termux/termux-app/releases<br />
 electerm：https://github.com/electerm/electerm/releases
 
