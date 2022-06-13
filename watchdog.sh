@@ -11,6 +11,7 @@
 #v8 增加错误次数过多后，自动获取新域名功能
 #v9 网站正常条件改为判断页面内容
 #v9.1 每日推送增加历史错误日志内容
+#v9.2 增加当前网络归属地的显示
 
 #读取需监控的域名
 url=`cat ./watchdog/url.list`
@@ -42,6 +43,17 @@ url_h="${1//www./}"&&url_h="${url_h//https:\/\//}"&&url_h="${url_h//http:\/\//}"
 url_s=$((${#url_h}/2-1))
 surl=${url_h:0:url_s}**${url_h:$((${#url_h}-${url_s}))}
 }
+#urlEncode编码
+function urlEncode() {
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            *) printf "$c" | xxd -p -c1 | while read x;do printf "%%%s" "$x";done
+        esac
+    done
+}
 #Pushplus推送
 function sendmsg()
 {
@@ -55,7 +67,9 @@ function ipp
 strA="`curl --retry 3 --retry-max-time 30 -L -s ip38.com`"
 result=$(echo "$strA" | egrep -o "(<font color=#FF0000>)(.*)(font>)")
 ipp="`echo ${result:20:$((${#result}-27))}`"
+uipp="`urlEncode $ipp`"
 }
+autograph="%3Cbr%3E%3Cbr%3E%E6%9C%AC%E9%80%9A%E7%9F%A5+By%EF%BC%9Ahttps%3A%2F%2Fgithub.com%2Frainweb82%2Fwatchdog"
 #检测代码开始
 zcnum=0
 cwnum=0
@@ -110,7 +124,7 @@ do
 	#判断是否发送每日推送
 	if [ $nowtime -eq $daypost ] && [ $issend -eq 1 ]
 	then
-		nowmsg=\&title=$surl%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A$surl%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A$day%E5%A4%A9$hour%E5%B0%8F%E6%97%B6$min%E5%88%86$sec%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`%3Cbr%3E$wrong\&template=html
+		nowmsg=\&title=$surl%E7%9B%91%E6%8E%A7%E6%97%A5%E6%8A%A5\&content=%E7%9B%91%E6%8E%A7%E5%9F%9F%E5%90%8D%EF%BC%9A$surl%3Cbr+%2F%3E%E7%B4%AF%E8%AE%A1%E7%9B%91%E6%8E%A7%EF%BC%9A$(($zcnum+$cwnum))%E6%AC%A1+%E3%80%90%E6%AD%A3%E5%B8%B8%EF%BC%9A$zcnum%E6%AC%A1%EF%BC%8C%E9%94%99%E8%AF%AF%EF%BC%9A$cwnum%E6%AC%A1%E3%80%91%3Cbr+%2F%3E%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%EF%BC%9A$day%E5%A4%A9$hour%E5%B0%8F%E6%97%B6$min%E5%88%86$sec%E7%A7%92%3Cbr+%2F%3E`date +"%m-%d_%H:%M:%S"`%3Cbr%3E%E7%BD%91%E7%BB%9C%E5%BD%92%E5%B1%9E%EF%BC%9A$uipp%3Cbr%3E$wrong$autograph\&template=html
 		if [ ! $pushplustokena ]
 		then
 			echo -e "\033[34m"未设置PUSHPLUS-A，跳过本次每日推送任务
@@ -173,7 +187,7 @@ do
 		#判断是否需要推送
 		if [ $(( $times % $msgtimes )) = 0 ]  && [ $times -ne 0 ] ; then
 			#推送消息
-			nowmsg=\&title=$surl%E7%BD%91%E7%AB%99%E6%8C%82%E4%BA%86\&content=$surl+%E5%9F%9F%E5%90%8D%E6%8C%82%E4%BA%86%EF%BC%8C%E5%BF%AB%E5%8E%BB%E7%9C%8B%E7%9C%8B%E5%90%A7%EF%BC%81+`date +"%m-%d_%H:%M:%S"`\&template=html
+			nowmsg=\&title=$surl%E7%BD%91%E7%AB%99%E6%8C%82%E4%BA%86\&content=$surl+%E5%9F%9F%E5%90%8D%E6%8C%82%E4%BA%86%EF%BC%8C%E5%BF%AB%E5%8E%BB%E7%9C%8B%E7%9C%8B+`date +"%m-%d_%H:%M:%S"`%3Cbr%3E%E7%BD%91%E7%BB%9C%E5%BD%92%E5%B1%9E%EF%BC%9A$uipp$autograph\&template=html
 			if [ ! $pushplustokena ]
 			then
 				echo -e "\033[34m"未设置PUSHPLUS-A，跳过本次错误推送任务
