@@ -13,6 +13,10 @@ Aidlux：https://www.aidlux.com/product<br />
 termax：https://github.com/termux/termux-app/releases<br />
 electerm：https://github.com/electerm/electerm/releases
 
+#### Aidlux同步系统时间命令
+
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 #### termax需安装功能支持
 
 pkg install git && pkg install vim -y
