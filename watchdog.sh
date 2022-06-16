@@ -117,14 +117,18 @@ do
 		break
 	fi
 done
-echo -e "\033[35m"监控域名:$url
+if [[ $url != "stop" ]]
+then
+	echo -e "\033[35m"监控域名：$url
+fi
 #开始循环
 while [[ $tries -lt 5 ]]
 do
 	if [[ $url == "stop" ]]
 	then
-		echo -e "\033[31m"接受到停止指令，停止本次域名监控！"\033[30m"
-		break
+		echo -e "\033[31m"接受到停止指令，暂停域名监控！"\033[30m"
+		loading 60
+		bash ./watchdog/watchdog.sh
 	fi
 	#每日推送
 	nowtime=$(($(date +%-H)%12))
