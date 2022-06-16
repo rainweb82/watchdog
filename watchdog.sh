@@ -225,11 +225,9 @@ do
 				zcnum=0
 				wrong=''
 				jjurl $url
-				echo
 				echo -e "\033[35m"更新域名为:$url
 				break
 			fi
-			echo
 			echo -e "\033[35m"域名未更新，等待30分钟 $date
 			loading 30
 		done
