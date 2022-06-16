@@ -144,7 +144,6 @@ do
 		fi
 		issend=0
 		#定时检查域名是否有更新
-
 		if [[ $urlhub != "" ]]
 		then
 			new_url="`curl --retry 3 --retry-max-time 30 -L -s $urlhub`"
