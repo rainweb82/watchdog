@@ -72,6 +72,11 @@ uipp="`urlEncode $ipp`"
 }
 autograph="%3Cbr+%2F%3E%3Cbr+%2F%3E%E6%9C%AC%E9%80%9A%E7%9F%A5+By%EF%BC%9Agithub.com%2Frainweb82%2Fwatchdog"
 #检测代码开始
+#如填写了urlhub，则使用此地址的url进行检测
+if [[ $urlhub != "" ]]
+then
+	url="`curl --retry 3 --retry-max-time 30 -L -s $urlhub`"
+fi
 zcnum=0
 cwnum=0
 lxcwhj=0
@@ -139,9 +144,15 @@ do
 		fi
 		issend=0
 		#定时检查域名是否有更新
-		rm -rf watchdog
-		git clone --depth 1 $hub watchdog --quiet
-		new_url=`cat ./watchdog/url.list`
+
+		if [[ $urlhub != "" ]]
+		then
+			new_url="`curl --retry 3 --retry-max-time 30 -L -s $urlhub`"
+		else
+			rm -rf watchdog
+			git clone --depth 1 $hub watchdog --quiet
+			new_url=`cat ./watchdog/url.list`
+		fi
 		if [ $url != $new_url ]
 		then
 			url=$new_url
@@ -183,7 +194,7 @@ do
 		#记录错误日志，以备每日推送时使用
 		wrong="%3Cbr+%2F%3E%E4%BB%A3%E7%A0%81%EF%BC%9A$code+%E6%97%B6%E9%97%B4%EF%BC%9A`date +"%m-%d_%H:%M:%S"`$wrong"
 		#打印错误文字
-		echo -e "\033[31m"网站异常,内容无指定文字 代码:$code $date
+		echo -e "\033[31m"网站异常,内容无:$rtit 代码:$code $date
 		#判断是否需要推送
 		if [ $(( $times % $msgtimes )) = 0 ] && [ $times -ne 0 ] ; then
 			#推送消息
@@ -214,9 +225,14 @@ do
 		for ((r=1;$r<=$maxurl;r+=1))
 		do
 			echo -e "\033[31m"错误次数超过上限，等待更新域名 $date
-			rm -rf watchdog
-			git clone --depth 1 $hub watchdog --quiet
-			new_url=`cat ./watchdog/url.list`
+			if [[ $urlhub != "" ]]
+			then
+				new_url="`curl --retry 3 --retry-max-time 30 -L -s $urlhub`"
+			else
+				rm -rf watchdog
+				git clone --depth 1 $hub watchdog --quiet
+				new_url=`cat ./watchdog/url.list`
+			fi
 			if [ $url != $new_url ]
 			then
 				url=$new_url
