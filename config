@@ -1,5 +1,7 @@
 #脚本更新地址
 hub=https://github.com/rainweb82/watchdog.git
+#检测域名所在地址(不填则使用本库中的url.list内地址)
+urlhub=
 #PUSHPLUS推送tokena(A)
 pushplustokena=
 #PUSHPLUS推送tokena(B)
