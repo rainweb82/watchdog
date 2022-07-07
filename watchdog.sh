@@ -158,7 +158,7 @@ do
 	#每x次检测输出1次监控运行统计
 	if [ $(( $(($zcnum+$cwnum)) % $tjnum )) = 0 ] && [ $(($zcnum+$cwnum)) -ne 0 ]
 	then
-		echo -e "\033[35m"已检测:$(($zcnum+$cwnum))次 正常:$zcnum次 错误:$cwnum次 运行:$day天$hour小时$min分$sec秒
+		echo -e "\033[35m""已检测:"$(($zcnum+$cwnum))"次 正常:"$zcnum"次 错误:"$cwnum"次 运行:"$day"天"$hour"小时"$min"分"$sec"秒"
 		#定时检查域名是否有更新
 		updateurl
 		if [ $url != $new_url ]
