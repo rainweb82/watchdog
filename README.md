@@ -23,7 +23,7 @@ pkg install git && pkg install vim -y
 
 #### 首次下载最新脚本
 
-git clone --depth 1 https://iamruirui:qweasd123@gitee.com/iamruirui/watchdog.git watchdog && cp ./watchdog/run.sh run.sh && cp ./watchdog/config config
+git clone --depth 1 https://github.com/rainweb82/watchdog.git watchdog && cp ./watchdog/run.sh run.sh && cp ./watchdog/config config
 
 #### 运行程序
 
