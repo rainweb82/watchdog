@@ -56,21 +56,18 @@ function urlEncode() {
 #Pushplus推送
 function sendmsg()
 {
-if [ ! $pushplustokena ]
+tokentimes=0
+if [[ $pushplustoken == "" ]]
 then
-    echo -e "\033[34m"未设置PUSHPLUS-A，跳过本次推送任务
+    echo -e "\033[34m"未设置PUSHPLUS，跳过本次推送任务
 else
-    nowmsg=http://www.pushplus.plus/send?token=$pushplustokena$1
+for token in $pushplustoken
+do
+	tokentimes=$(($tokentimes+1))
+    nowmsg=http://www.pushplus.plus/send?token=$token$1
     nowmsgcode=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsg`
-    echo -e "\033[34m"本次PUSHPLUS推送已完成！代码:$nowmsgcode
-fi
-if [ ! $pushplustokenb ]
-then
-    echo -e "\033[34m"未设置PUSHPLUS-B，跳过本次推送任务
-else
-    nowmsg=http://www.pushplus.plus/send?token=$pushplustokenb$1
-    nowmsgcode=`curl -o /dev/null --retry 3 --retry-max-time 30 -s -w %{http_code} $nowmsg`
-    echo -e "\033[34m"本次PUSHPLUS推送已完成！代码:$nowmsgcode
+    echo -e "\033[34m"PUSHPLUS$tokentimes 已完成推送！代码:$nowmsgcode
+done
 fi
 }
 #获取本机ip归属地信息
